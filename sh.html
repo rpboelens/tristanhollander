@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Easy Admin - Tristan Hollander</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400" rel="stylesheet">
+  
+<style>
+html { 
+  background: url(./coding.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+#container {max-width: 1000px;margin:auto;color:white;font-size:20pt;}
+
+#txt {
+	width:100%;
+	height:350px;
+	font-size:12pt;
+	background:rgba(200,255,255,.7);border:0;
+	resize: vertical;
+}
+
+#multi {
+  width:100%;border:0;
+  font-size:20pt;color:rgba(0,125,125,1);
+  background:rgba(200,255,255,.7);
+  font-family: 'Rajdhani', sans-serif;
+}
+
+button, .btn {
+  font-size:20pt;color:rgba(50,255,255,1);
+  font-family: 'Rajdhani', sans-serif;
+  border:0;background:rgba(0,50,50,1);
+  cursor:pointer;
+  text-decoration:none;
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(150, 255, 220, 1), rgba(255, 255, 255, 0));
+}
+
+h1 {text-align:center;}
+
+p {font-size: 12pt;text-align:right}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" >
+  <div id="container"><h1>Easy Admin by Ruud</h1>
+  <textarea id ="txt" autofocus>Hallo Tristan Hollander!! Of moet ik Jasper zeggen?</textarea>
+  <div style="text-align:center;margin-top:5px;">
+    <button onclick="convert('ttl')">TTL</button>
+    <button onclick="convert('ttlx')">TTLx</button>
+    <button onclick="convert('invoice')">Invoice</button>
+    <button onclick="convert('abuse')">Abuse</button>
+    <button onclick="convert('tnumber')">T-nr</button>
+    <button onclick="convert('fancy')">Fancy</button> • 
+    <button onclick="clearT()">Clear</button>
+    <button onclick="helpT()">?</button> •     <a class="btn" href="./?logout">Logout</a>
+  </div>
+  <hr>  
+  <select id="multi" name="simple" size="5">
+    <option value="ttl" selected>TTL</option>
+    <option value="ttlx">TTLx</option>
+    <option value="invoice">Invoice</option>
+    <option value="abuse">Abuse URL</option>
+    <option value="tnumber">T-Number</option>
+  </select>
+  <p>Standard action (ctrl + enter)</p>
+  <hr>
+</div>
+      <script id="rendered-js" >
+const q = s => document.getElementById(s);
+
+let myT = q`txt`;
+
+let xtra = { '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four', '5': 'five', '6': 'six', '7': 'seven', '8': 'eight', '9': 'nine', '!': 'exclamation', '?': 'question' };
+
+let fancy = s => s.replace(/[a-z]/g, c => `:alphabet-white-${c}:`).
+replace(/[A-Z]/g, c => `:alphabet-yellow-${c.toLowerCase``}:`).
+replace(/[0-9\!\?]/g, c => `:${xtra[c]}:`).replace(/\s/g, '\t');
+
+const ttl = (m, n = m.trim()) => `${n},1min,5min,1uur,1dag`.
+split`,`[`60,300,3600,86400`.split`,`.indexOf(n) + 1];
+
+const invC = s => (r = s.match(/\d{4}/g), l = r.length,
+pd = `0000.`.repeat(4 - l), pd + r.join`.`);
+
+const convert = c => {
+  if (c === `ttl`) {
+    myT.value =
+    myT.value.replace(/(?:\t)\d+(?:\t)/g, c => `\t${ttl(c)}\t`);
+  } else if (c === `ttlx`) {
+    myT.value = myT.value.replace(/\t(\d+)\t/g, c => `\t${ttl(c)}\t`).replace(/(.+)\t(.+)\t(.+)\t(.+)/gm, `Naam: $1\nTTL: $2\nType: $3\nWaarde: $4\n`);
+  } else if (c === `invoice`) {
+    myT.value = invC(myT.value);
+  } else if (c === `fancy`) {
+    myT.value = fancy(myT.value);
+  } else if (c === `tnumber`) {
+    myT.value = myT.value.replace(/T/g, `https://admin.transip.us/ticket/entry/prm/`);
+  } else if (c === `abuse`) {
+    myT.value = myT.value.replace(/\[\.\]/g, `.`).replace(/hxxp/gi, `http`).replace(/^(.*)(\r?\n\1)+$/gm, "$1");
+  }
+  myT.select();
+  document.execCommand('copy');
+};
+
+myT.addEventListener('keydown', e => {if (e.keyCode == 13 && (e.metaKey || e.ctrlKey)) cmndEnter();});
+
+const cmndEnter = () => convert(q`multi`.value);
+
+const clearT = () => {
+  myT.value = "";
+  myT.select();
+};
+
+const helpT = () => myT.value = `Documentatie is on the way.. Or just ask Ruud`;
+
+</script>
+
+  
+
+</body>
+
+</html>
